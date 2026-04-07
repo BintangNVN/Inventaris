@@ -1,37 +1,46 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('landing');
 });
 
+/* LOGIN */
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
-Route::post('/login', function (Request $request) {
-
-    $credentials = $request->only('email', 'password');
-
-    if (Auth::attempt($credentials)) {
-
-        $user = Auth::user();
-
-        return response()->json([
-            'success' => true,
-            'redirect' => $user->role === 'admin' ? '/admin' : '/staff'
-        ]);
+/* DASHBOARD GLOBAL (BIAR TIDAK ERROR) */
+Route::middleware('auth')->get('/dashboard', function () {
+    if (auth()->user()->role === 'admin') {
+        return redirect('/admin/dashboard');
+    } elseif (auth()->user()->role === 'staff') {
+        return redirect('/staff/dashboard');
     }
 
-    return response()->json([
-        'success' => false,
-        'message' => 'Email atau password salah'
-    ]);
-});
-Route::get('/admin', function () {
-    return "Dashboard Admin";
+    return redirect('/');
+})->name('dashboard');
+
+/* ADMIN */
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
 });
 
-Route::get('/staff', function () {
-    return "Dashboard Staff";
+/* STAFF */
+Route::middleware(['auth', 'role:staff'])->prefix('staff')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('staff.dashboard');
+    })->name('staff.dashboard');
+});
+
+Route::prefix('categories')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/', [App\Http\Controllers\CategoryController::class, 'store'])->name('categories.store');
+    Route::get('/{id}/edit', [App\Http\Controllers\CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/{id}', [App\Http\Controllers\CategoryController::class, 'update'])->name('categories.update');
 });
