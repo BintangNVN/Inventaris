@@ -451,7 +451,7 @@
                     <i class="fa-solid fa-list-ul"></i>
                     <span>Categories</span>
                 </a>
-                <a href="#" class="nav-link">
+                <a href="{{ route('items.index')}}" class="nav-link">
                     <i class="fa-solid fa-boxes-stacked"></i>
                     <span>Items</span>
                 </a>

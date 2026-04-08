@@ -10,4 +10,10 @@ protected $fillable = [
     'name',
     'division',
 ];  
-}
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+} 
