@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OperatorController;
+use App\Exports\ItemsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/', function () {
     return view('landing');
@@ -52,4 +56,16 @@ Route::prefix('items')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/', [App\Http\Controllers\ItemController::class, 'store'])->name('items.store');
     Route::get('/{item}/edit', [App\Http\Controllers\ItemController::class, 'edit'])->name('items.edit');
     Route::put('/{item}', [App\Http\Controllers\ItemController::class, 'update'])->name('items.update');
+});
+
+Route::get('/items/export', function () {
+    return Excel::download(new ItemsExport, 'items.xlsx');
+})->name('items.export');
+
+Route::prefix('admins')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admins.index');
+});
+
+Route::prefix('operators')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/', [App\Http\Controllers\OperatorController::class, 'index'])->name('operators.index');
 });

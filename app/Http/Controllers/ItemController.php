@@ -66,15 +66,30 @@ class ItemController extends Controller
     public function update(Request $request, Item $item)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'name' => 'required',
+            'category_id' => 'required',
             'total' => 'required|integer|min:0',
-            'repair' => 'nullable|integer|min:0',
+            'new_broke' => 'nullable|integer|min:0'
         ]);
 
-        $item->update($request->only('name', 'category_id', 'total', 'repair'));
+        // ambil repair lama
+        $currentRepair = $item->repair ?? 0;
 
-        return redirect()->route('items.index')->with('success', 'Item updated successfully.');
+        // ambil input baru
+        $newBroke = $request->new_broke ?? 0;
+
+        // jumlahkan
+        $totalRepair = $currentRepair + $newBroke;
+
+        // update data
+        $item->update([
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'total' => $request->total,
+            'repair' => $totalRepair
+        ]);
+
+        return redirect()->route('items.index')->with('success', 'Item updated!');
     }
     /**
      * Remove the specified resource from storage.

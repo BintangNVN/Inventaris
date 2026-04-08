@@ -50,11 +50,11 @@
                 @enderror
             </div>
 
-            <!-- Nama -->
+            <!-- Total -->
             <div style="margin-bottom: 16px;">
                 <label style="display:block; margin-bottom:6px; font-weight:600;">Total</label>
                 <input 
-                    type="text" 
+                    type="number" 
                     name="total" 
                     value="{{ old('total', $item->total) }}"
                     style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;"
@@ -62,6 +62,28 @@
                 >
 
                 @error('total')
+                    <small style="color:red;">{{ $message }}</small>
+                @enderror
+            </div>
+
+          {{-- Broke Item --}}
+            <div style="margin-bottom: 16px;">
+                <label style="display:block; margin-bottom:6px; font-weight:600;">
+                    New Broke Item 
+                    <span style="color: rgb(193, 193, 0)">
+                        (currently: {{ $item->repair ?? 0 }})
+                    </span>
+                </label>
+
+                <input 
+                    type="number" 
+                    name="new_broke" 
+                    value="{{ old('new_broke', 0) }}"
+                    min="0"
+                    style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;"
+                >
+
+                @error('new_broke')
                     <small style="color:red;">{{ $message }}</small>
                 @enderror
             </div>

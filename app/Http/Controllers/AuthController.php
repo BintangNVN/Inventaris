@@ -15,7 +15,7 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            // 🔥 Redirect langsung ke dashboard sesuai role
+            
             if ($user->role === 'admin') {
                 $redirect = '/admin/dashboard';
             } elseif ($user->role === 'staff') {

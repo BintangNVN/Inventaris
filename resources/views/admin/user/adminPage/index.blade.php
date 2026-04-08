@@ -40,53 +40,36 @@
                 <thead class="bg-slate-100">
                     <tr class="text-slate-600">
                         <th class="px-5 py-4 text-center w-14">#</th>
-                        <th class="px-5 py-4 text-left">Category</th>
                         <th class="px-5 py-4 text-left">Name</th>
-                        <th class="px-5 py-4 text-left">Total</th>
-                        <th class="px-5 py-4 text-center">Repair</th>
-                        <th class="px-5 py-4 text-center">Lending</th>
+                        <th class="px-5 py-4 text-left">Email</th>
                         <th class="px-5 py-4 text-center">Action</th>
                     </tr>
                 </thead>
 
                 <!-- BODY -->
                 <tbody>
-                    @forelse ($items as $index => $item)
+                    @forelse ($admins as $index => $admin)
                         <tr class="border-b hover:bg-slate-50 transition">
                             <td class="px-5 py-4 text-center text-slate-500">
                                 {{ $index + 1 }}
                             </td>
 
-                            <td class="px-5 py-4 font-semibold text-slate-800">
-                                {{ $item->category->name ?? '-' }}
+                            <td class="px-5 py-4 text-slate-700">
+                                {{ $admin->name }}
                             </td>
 
                             <td class="px-5 py-4 text-slate-700">
-                                {{ $item->name }}
+                                {{ $admin->email }}
                             </td>
 
-                            <td class="px-5 py-4 text-slate-700">
-                                {{ $item->total }}
-                            </td>
-
-                            <td class="px-5 py-4 text-center text-slate-700">
-                                {{ $item->repair ?? 0 }}
-                            </td>
-
-                            <td class="px-5 py-4 text-center text-slate-700">
-                                @if($item->lendings_count > 0)
-                                    <a href="{{ route('lendings.showByItem', $item->id) }}" 
-                                    class="text-blue-600 hover:underline font-semibold">
-                                        {{ $item->lendings_count }}
-                                    </a>
-                                @else
-                                    {{ $item->lendings_count ?? 0 }}
-                                @endif
-                            </td>
                             <td class="px-5 py-4 text-center">
-                                <a href="{{ route('items.edit', $item->id) }}"
+                                <a href="#"
                                    class="inline-flex items-center gap-1 bg-violet-600 hover:bg-violet-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition">
                                     <i class="fa-solid fa-pen"></i> Edit
+                                </a>
+                                <a href="#"
+                                   class="inline-flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition">
+                                    <i class="fa-solid fa-trash"></i> Delete
                                 </a>
                             </td>
 

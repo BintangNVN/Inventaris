@@ -466,12 +466,30 @@
                 </a>
             @endif
 
-            <div class="nav-section-label">Accounts</div>
-            <a href="#" class="nav-link">
-                <i class="fa-solid fa-user"></i>
-                <span>Users</span>
-                <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
+            <div class="nav-section-label text-white/70 text-sm mb-2">Accounts</div>
+
+            <div class="nav-item group">
+                <!-- Trigger -->
+                <div class="flex items-center justify-between cursor-pointer text-white py-2 px-3">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Users</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down transition-transform group-hover:rotate-180"></i>
+                </div>
+
+                <!-- Dropdown -->
+                <ul class="mt-2 pl-10 space-y-2 hidden group-hover:block text-white/90">
+                    <li class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+                        <a href="{{route('admins.index')}}" class="hover:text-white">Admin</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+                        <a href="{{route('operators.index')}}" class="hover:text-white">Operator</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
 
         <div class="sidebar-footer">
